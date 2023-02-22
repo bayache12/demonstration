@@ -29,7 +29,7 @@ def img_to_text(img):
 
 
 def get_grade(prompt, converted_text):
-    _prompt =  f"{st.secrets['prompt']} '{prompt}' \n"
+    _prompt =  f"{st.secrets['prompt']} {prompt} \n"
     _response = f'{st.secrets["initial_response"]} {converted_text} \n'
     _feedback = f'{st.secrets["initial_feedback"]}'
 
