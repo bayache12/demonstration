@@ -79,8 +79,6 @@ if file != None:
     with placeholder.container():
         placeholder = st.empty()
         grades = [i for i in testo.split('\n') if len(i.strip()) > 1]
-        print(grades)
-        lottie_gifs = [i for i in open('lotties.txt').readlines()]
         st.subheader(grades[0])
         st_lottie(load_lottieurl('https://assets3.lottiefiles.com/private_files/lf30_pSQ3W3.json'), height=300,
                   key='first')
