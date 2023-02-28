@@ -28,15 +28,11 @@ def img_to_text(img):
     return "\n".join(listo)
 
 
-def get_grade(prompt, converted_text):
-    _prompt =  f"{st.secrets['prompt']} {prompt} \n"
-    _response = f'{st.secrets["initial_response"]} {converted_text} \n'
-    _feedback = f'{st.secrets["initial_feedback"]}'
-
-    return _prompt + _response + _feedback
+def get_openai_input(prompt, converted_text):
+    return st.secrets['prompt_text'].format(prompt = prompt, converted_text = converted_text)
 
 
-def get_feedback(prompt):
+def get_grade(prompt):
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=prompt,
@@ -56,11 +52,12 @@ def load_lottieurl(url):
     return r.json()
 
 
-st.title("elastik, _Teacher_ in a pocket")
+st.image('MicrosoftTeams-image.png')
+st.title("elastik, _Teacher_ in a Pocket")
 
 st.write("---")
 
-st.subheader('Choose the prompt used and upload your handwritten piece of work🤔')
+st.subheader('Before your work can be graded, choose the prompt used and upload your handwritten piece of work!🤔')
 
 option = st.selectbox(
     'Which of these prompts is the students handwritten work based off of?',
@@ -72,19 +69,19 @@ file = st.file_uploader('Upload your image or scan here! 👇', type=None, accep
                         on_change=None, args=None,
                         kwargs=None, disabled=False, label_visibility="visible")
 st.write('---')
-
-if file is not None:
-
+if file != None:
     placeholder = st.empty()
     with placeholder.container():
         title_api = st.title('Getting Student Mark...')
         st_lottie(load_lottieurl('https://assets6.lottiefiles.com/packages/lf20_usmfx6bp.json'), height=300,
                   key='loading')
         new_text = img_to_text(file)
-        testo = get_feedback(get_grade(option, new_text))
+        testo = get_grade(get_openai_input(option, new_text))
     with placeholder.container():
         placeholder = st.empty()
         grades = [i for i in testo.split('\n') if len(i.strip()) > 1]
+        print(grades)
+        lottie_gifs = [i for i in open('lotties.txt').readlines()]
         st.subheader(grades[0])
         st_lottie(load_lottieurl('https://assets3.lottiefiles.com/private_files/lf30_pSQ3W3.json'), height=300,
                   key='first')
