@@ -52,7 +52,6 @@ def load_lottieurl(url):
     return r.json()
 
 
-st.image('MicrosoftTeams-image.png')
 st.title("elastik, _Teacher_ in a Pocket")
 
 st.write("---")
